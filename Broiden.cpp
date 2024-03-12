@@ -42,6 +42,7 @@ public:
 		this->X = X;
 		this->f = f;
 		this->grad = grad;
+		sheet->writeStr(row, 2, L"¹");
 		sheet->writeStr(row, 3, L"x");
 		sheet->writeStr(row, 4, L"f");
 		sheet->writeStr(row, 5, L"grad");
@@ -56,8 +57,18 @@ public:
 	void method() {
 		
 		cout << X[0] << " " << X[1] << endl;
-
+		int count = 0;
+		int num = 1;
 		do {
+			sheet->writeNum(row, 2, num, format);
+			num++;
+			if (count > 2) {
+
+				N = { {1, 0}, {0, 1} };
+				count = 0;
+
+			}
+
 			sheet->writeNum(row, 3, X[0], format);
 			sheet->writeNum(row + 1, 3, X[1], format);
 			sheet->writeNum(row, 4, f(X), format);
@@ -107,6 +118,7 @@ public:
 			X[1] = X_new[1];
 			cout << X[0] << " " << X[1] << endl;
 			row += 3;
+			count++;
 
 		} while (sqrt(gradX_new[0] * gradX_new[0] + gradX_new[1] * gradX_new[1]) >
 			eps);
